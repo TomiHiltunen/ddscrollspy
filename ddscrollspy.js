@@ -127,6 +127,13 @@ if (!Array.prototype.filter){
 					totaltargetsheight = targets[targets.length-1].offsettop + targets[targets.length-1].height
 			}
 
+      function applyHighlighting(menuItem) {
+        if (menuItem.hasClass(o.highlightclass)) return;
+        menuItem.addClass(o.highlightclass); // Add highlight class to target item
+        if ($.isFunction(o.onHighlight)) // Check if callback is a function
+          o.onHighlight.call(this, menuItem);  // Call callback function
+      }
+
 			function highlightitem(){
 				if (targets.length == 0)
 					return
@@ -140,8 +147,7 @@ if (!Array.prototype.filter){
 					curtarget = shortlist.shift() // select the first element that's visible on screen
 					if (prevtarget && prevtarget != curtarget)
 						prevtarget.$menuitem.removeClass(o.highlightclass)
-					if (!curtarget.$menuitem.hasClass(o.highlightclass)) // if there was a previously selected menu link and it's not the same as current
-						curtarget.$menuitem.addClass(o.highlightclass) // highlight its menu item
+          applyHighlighting(curtarget.$menuitem) // Add highlighting if not already set
 					if (curtarget.index >= cantscrollpastindex && scrolltop >= (spyscrollheight - spyheight)){ // if we're at target that can't be scrolled past and we're at end of document
 						if (o.enableprogress){ // if o.enableprogress enabled
 							for (var i=0; i<targets.length; i++){ // highlight everything
@@ -150,8 +156,7 @@ if (!Array.prototype.filter){
 						}
 						curtarget.$menuitem.removeClass(o.highlightclass)
 						curtarget = targets[targets.length-1]
-						if (!curtarget.$menuitem.hasClass(o.highlightclass))
-							curtarget.$menuitem.addClass(o.highlightclass)
+            applyHighlighting(curtarget.$menuitem) // Add highlighting if not already set
 						return
 					}
 					if (o.enableprogress){ // if o.enableprogress enabled
