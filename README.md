@@ -36,7 +36,10 @@
 		$('#verticalspymenu').ddscrollSpy({ // initialize 2nd demo
 			spytarget: document.getElementById('contentcontainer'),
 			enableprogress: 'progress',
-			scrollduration: 300 // <-- no comma after last option!
+			scrollduration: 300,
+      			onHighlight: function (element) {
+        			// Called when item is highlighted
+      			} // <-- no comma after last option!
 		})
 	})
 	
